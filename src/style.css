@@ -1,0 +1,35 @@
+*{
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+    outline: red 1px solid;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.grids{
+    width: 40%;
+    height: 50%;
+    display: grid;
+    grid-template-rows: repeat(1fr, 10);
+    grid-template-columns: repeat(1fr, 10);
+}
+.row{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.column{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
