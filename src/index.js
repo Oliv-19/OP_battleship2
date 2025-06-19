@@ -1,8 +1,7 @@
 import domInit from "./dom"
+import Ships from './ships'
 
 domInit()
-console.log('idk')
-export default function helloWorld(){
-    return 'Hello World'
-}
+let ship= new Ships(1)
+module.exports= ship
 

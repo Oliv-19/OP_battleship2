@@ -41,7 +41,6 @@ const Dom= {
     },
 }
 export default function init(){
-    console.log('idk')
     Dom.generateGrid()
     Dom.genColumn()
     Dom.nameRows()
