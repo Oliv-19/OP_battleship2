@@ -1,7 +1,14 @@
-import domInit from "./dom"
+import { init} from "./dom"
 import Ships from './ships'
 
-domInit()
 let ship= new Ships(1)
-module.exports= ship
+init()
+function getClickedSquare(){
+    let grid= document.querySelector('.playerGrid')
+    grid.addEventListener('click', (e)=>{
+        ship.makeMove(e.target.id)
+    })
+}
+console.log(getClickedSquare())
+export {ship}
 

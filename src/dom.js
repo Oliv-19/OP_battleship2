@@ -6,43 +6,34 @@ const Dom= {
             for(let i=0; i< 11; i++){
                 let square = document.createElement('div')
                 square.className= name
+                square.id=i
+                
+                if(name== 'column'){
+                    square.id = elem.id + String.fromCharCode(65+i-1)
+                    if(square.id == 0 + String.fromCharCode(65+i-1)){
+                        console.log(name)
+                        square.textContent = String.fromCharCode(65+i-1)
+                    }
+                }
                 elem.appendChild(square)
+                elem.children[0].textContent = elem.id == 0 ? ' ' : elem.id
             }
+            
         });
     },
     genColumn:function(){
         let rows= document.querySelectorAll('.row')
         this.generateGrid(rows, 'column')
     },
-    nameRows: function(){
-        let rows= document.querySelectorAll('.row')
-        rows.forEach((row, i)=>{
-            if(i==0||i==11){
-                row.classList.add('firstColumn')
-            }else{
-
-                row.children[0].classList.add('firstSquare')
-                if(i>10){
-                    row.children[0].textContent= i-11
-                }else{
-                    row.children[0].textContent= i
-                }
-            }
+    getClickedSquare(){
+        let grid= document.querySelector('.playerGrid')
+        grid.addEventListener('click', (e)=>{
+            return e.target.id
         })
-    },
-    nameColums: function(){
-        let columns= document.querySelectorAll('.firstColumn')
-        columns.forEach(row=>{
-            for (let i = 0; i <row.children.length-1; i++) {
-                row.children[i+1].textContent= String.fromCharCode(65+i)
-                
-            }
-        })
-    },
+    }
 }
-export default function init(){
+function init(){
     Dom.generateGrid()
     Dom.genColumn()
-    Dom.nameRows()
-    Dom.nameColums() 
 }
+export {init}

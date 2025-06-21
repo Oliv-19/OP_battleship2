@@ -21,5 +21,8 @@ export default class Ships{
         curr[1].end= [start[0], (start[1]+curr[1].size-1)]
         return curr
     }
+    makeMove(move){
+        console.log(move)
+    }
     
 }
