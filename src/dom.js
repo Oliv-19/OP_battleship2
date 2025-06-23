@@ -36,4 +36,4 @@ function init(){
     Dom.generateGrid()
     Dom.genColumn()
 }
-export {init}
+export default init

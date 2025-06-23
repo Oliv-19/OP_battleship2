@@ -5,7 +5,11 @@
   "scripts": {
     "test": "jest",
     "dev": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "gh-pages": "git checkout gh-pages",
+    "gh-merge": "git merge main --no-edit",
+    "gh-push": "git subtree push --prefix dist origin gh-pages",
+    "gh-main": "git checkout main"
   },
   "repository": {
     "type": "git",

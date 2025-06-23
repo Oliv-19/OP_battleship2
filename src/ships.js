@@ -1,28 +1,21 @@
 export default class Ships{
-    constructor(player){
-        this.player= player,
-        this.ships=[['carrier', 5,], [ 'battleship',4], 
-        [ 'cruiser',3],[ 'submarine',3],[ 'destroyer',2]]
-        this.allShips=[]
-        this.generateShips()
+    constructor(player, size, shipName){
+        this.player= player
+        this.size= size
+        this.shipName= shipName
+        this.hits= 0
+        this.sunk= false
+        this.posStart=[NaN, 0]
+        this.posEnd=[NaN, 0]
     }
-    generateShips(){
-        this.ships.forEach(ship=>{
-            let template= [ship[0],{size:ship[1], start:[NaN, 0], end:[NaN, 0]}]
-            this.allShips.push(template)
-        })
+    hit(){
+        this.hits+=1
+        return this.hits
     }
-    getShip(name){
-        return this.allShips.find(ship=>ship[0]==name)
+    isSunk(){
+        if(this.hits== this.size){
+            this.sunk= true
+        }
+        return this.sunk
     }
-    placeShip(name, start){
-        let curr= this.getShip(name)
-        curr[1].start= start
-        curr[1].end= [start[0], (start[1]+curr[1].size-1)]
-        return curr
-    }
-    makeMove(move){
-        console.log(move)
-    }
-    
 }
