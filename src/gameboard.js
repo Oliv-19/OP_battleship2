@@ -1,42 +1,43 @@
 export default class Gameboard{
     constructor(){
-        this.empty=true
-        this.num=-1
-        this.shipsCoordinates= []
+        this.allShips= []
+        this.sunkShips= [false,false,false,false, false]
     }
-    isEmpty(){
-        if(Object.keys(this.shipsCoordinates).length == 0){
-            this.empty= true
-        }else{
-            this.empty= false
-        }
-        return this.empty
+    allShipsPlaced(){
+        return this.allShips.length == 5
     }
-    placeShip(coor, shipSize){
-        let coorStart= Number(coor[0])+shipSize
-        this.num+=1
+    allShipsSunk(){
+        return this.sunkShips.every(ship=>ship==true)
+    }
+    placeShip(coor, ship){
+        this.allShips.push(ship)
+        let coorStart= Number(coor[0])+ship.size
         
         for (let i = Number(coor[0]); i < coorStart; i++) {
-            if(typeof this.shipsCoordinates[this.num] == 'object'){
-                this.shipsCoordinates[this.num].push(String(i+coor[1]))
-                
-            }else{
-                this.shipsCoordinates[this.num]= [String(i+coor[1])]
-                
-            }
+            ship.addCoor(String(i+coor[1]))
         }
-        return this.shipsCoordinates[this.num]
+        
+        return ship.coor
     }
     receiveAttack(coor){
-        let result
-        this.shipsCoordinates.forEach(arr=>{
-            for (let i = 0; i < arr.length; i++) {
-                
-                if(arr[i]== coor)result= true
-                else result= false
-                return result
+        let result= {
+            isHit:false, 
+            isSunk:false,
+            shipName:null
+        }
+        for (let i = 0; i < this.allShips.length; i++) {
+           let ship = this.allShips[i].coor.find((val)=>val== coor) == undefined? result: this.allShips[i]
+           if(ship == this.allShips[i]){
+               ship.hit()
+               result.isHit= true
+               result.isSunk=ship.isSunk()
+               if(ship.isSunk()){
+                    this.sunkShips[i]= true
+               }
+               result.shipName=ship.shipName
             }
-       })
+            
+        }
        return result
     }
 }

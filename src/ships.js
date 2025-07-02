@@ -5,8 +5,7 @@ export default class Ships{
         this.shipName= shipName
         this.hits= 0
         this.sunk= false
-        this.posStart=[NaN, 0]
-        this.posEnd=[NaN, 0]
+        this.coor=[]
     }
     hit(){
         this.hits+=1
@@ -17,5 +16,8 @@ export default class Ships{
             this.sunk= true
         }
         return this.sunk
+    }
+    addCoor(coordinate){
+        this.coor.push(coordinate)
     }
 }
