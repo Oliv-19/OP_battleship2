@@ -9,13 +9,43 @@ export default class Gameboard{
     allShipsSunk(){
         return this.sunkShips.every(ship=>ship==true)
     }
-    placeShip(coor, ship){
+    placeShip(endCoor, ship, player){
         this.allShips.push(ship)
-        let coorStart= Number(coor[0])+ship.size
+        let shipStart= ship.coor[0]
         
-        for (let i = Number(coor[0]); i < coorStart; i++) {
-            ship.addCoor(String(i+coor[1]))
+        if(shipStart[0] == endCoor[0]){
+            if(endCoor.charCodeAt(1) <  shipStart.charCodeAt(1)){
+                for (let i =shipStart.charCodeAt(1)-1; i > endCoor.charCodeAt(1); i--) {
+                    if(player=='player'){
+                        ship.addCoor(String(endCoor[0]+String.fromCharCode(i)))
+                    }
+                }
+
+            }else{
+                for (let i =shipStart.charCodeAt(1)+1; i < endCoor.charCodeAt(1); i++) {
+                    if(player=='player'){
+                        ship.addCoor(String(endCoor[0]+String.fromCharCode(i)))
+                    }
+                }
+            }  
+            
+        }else {
+            if(shipStart[0] < endCoor[0]){
+                for (let i = Number(shipStart[0])+1; i < endCoor[0]; i++) {
+                    if(player=='player'){
+                        ship.addCoor(String(i+shipStart[1]))
+                    }
+                }
+            }else{
+                for (let i = Number(endCoor[0])+1; i < shipStart[0]; i++) {
+                    if(player=='player'){
+                        ship.addCoor(String(i+shipStart[1]))
+                    }
+                }
+            }
+
         }
+        ship.addCoor(endCoor)
         
         return ship.coor
     }

@@ -35,6 +35,9 @@ body{
 .ship{
     background-color: aqua;
 }
+.posShip{
+    background-color: rgb(63, 63, 204);
+}
 .hit{
     background-color: blue;
 }

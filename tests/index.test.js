@@ -32,7 +32,6 @@ describe('gameboard tests', ()=>{
     
 })
 describe('ship tests', ()=>{
-    let gb2= new Gameboard()
     test('sunk ship ', ()=>{
         let ship= new Ships(1, 2, 'destroyer')
         ship.hit()
