@@ -5,9 +5,9 @@
   "scripts": {
     "test": "jest",
     "dev": "webpack serve",
-    "build": "webpack",
     "gh-pages": "git checkout gh-pages",
     "gh-merge": "git merge main --no-edit",
+    "build": "webpack",
     "gh-push": "git add dist -f && git commit -m 'Deployment commit' && git subtree push --prefix dist origin gh-pages && git checkout main",
     "gh-main": "git checkout main"
   },
