@@ -23,6 +23,7 @@ let shipsInfo=[['carrier', 5,], [ 'battleship',4],
 let currPlayer= computer
 let currShip
 let currShipInfo
+let currPosiblePositions
 
 function getCurrentPlayer(){
     if(currPlayer.playerName== player.playerName){
@@ -53,7 +54,8 @@ function generateShips(ship){
 }
 
 function getPosiblePositions(e, shipSize){
-    let id= e.target.id
+    let id= e.target ? e.target.id : e.id
+
     let result=[]
 
     let coorYPos = (Number(id[0])+(shipSize-1) ) >9 ? null :(Number(id[0])+(shipSize-1) ) +id[1] 
@@ -61,8 +63,6 @@ function getPosiblePositions(e, shipSize){
     let coorXPos = id[0]+ String.fromCharCode(id[1].charCodeAt(0)+(shipSize-1))
     let coorXNeg = id[0]+ String.fromCharCode(id[1].charCodeAt(0)- (shipSize-1))
 
-    // console.log(coorYPos, coorYNeg, coorXPos, coorXNeg)
-    // console.log(coorYPos, coorYNeg)
     if (coorXNeg.charCodeAt(1) >= 65) result.push(coorXNeg)
     if(coorXPos.charCodeAt(1) <= 74) result.push(coorXPos)
     if( coorYPos != null){
@@ -83,20 +83,20 @@ function placePosiblePosition(e){
         currShip.addCoor(e.target.id)
 
         let posPositions= getPosiblePositions(e, currShip.size)
-        console.log(posPositions)
-        let squares= Dom.displayPosiblePositions(posPositions)
-        squares.forEach(val=> val.addEventListener('click', placePlayerShips))
+        //console.log(posPositions)
+        currPosiblePositions= Dom.displayPosiblePositions(posPositions)
+        currPosiblePositions.forEach(val=> val.addEventListener('click', placePlayerShips))
     }
 }
 
 function placePlayerShips(e){
     if(e.target.classList.contains('ship') == false){
-        e.target.removeEventListener('click', placePlayerShips)
+        currPosiblePositions.forEach(val=> val.removeEventListener('click', placePlayerShips))
         let shipCoor = playerGameboard.placeShip(e.target.id, currShip, 'player')
         Dom.displayShip(shipCoor)
 
-        //computerInstance.placeComputerShip(generateShips(currShipInfo), Dom.displayShip)
-    
+        computerInstance.placeComputerShip(generateShips(currShipInfo), Dom.displayShip, getPosiblePositions)
+        console.log(playerGameboard.allShipsPlaced())
         if(playerGameboard.allShipsPlaced()== true){
             playerGrid.removeEventListener('click', placePlayerShips)
             //enemyGrid.addEventListener('click', attack)
@@ -108,13 +108,13 @@ function placePlayerShips(e){
 }
 function attack(e){
     currPlayer=  getCurrentPlayer()
-    console.log(currPlayer)
+    //console.log(currPlayer)
     if(e.target.classList.contains('hit') == false || !e.target.classList.contains('miss') == false){
         let move=  computerGameboard.receiveAttack(e.target.id)
         if(move.isHit== true){
             currPlayer=  getCurrentPlayer()
         }
-        console.log(move)
+        //console.log(move)
         Dom.displayAttack(e.target, move)
         if(computerGameboard.allShipsSunk()){
             enemyGrid.removeEventListener('click', attack)

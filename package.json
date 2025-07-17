@@ -5,11 +5,13 @@
   "scripts": {
     "test": "jest",
     "dev": "webpack serve",
-    "gh-pages": "git checkout gh-pages",
-    "gh-merge": "git merge main --no-edit",
+    "gh1": "git checkout gh-pages",
+    "gh2": "git merge main --no-edit",
     "build": "webpack",
-    "gh-push": "git add dist -f && git commit -m 'Deployment commit' && git subtree push --prefix dist origin gh-pages && git checkout main",
-    "gh-main": "git checkout main"
+    "gh3": "git add dist -f",
+    "gh4": "git commit -m 'Deployment commit'",
+    "gh5": "git subtree push --prefix dist origin gh-pages",
+    "gh6": "git checkout main"
   },
   "repository": {
     "type": "git",

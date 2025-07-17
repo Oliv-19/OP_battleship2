@@ -12,41 +12,35 @@ export default class Gameboard{
     placeShip(endCoor, ship, player){
         this.allShips.push(ship)
         let shipStart= ship.coor[0]
-        
+        console.log(shipStart, endCoor)
         if(shipStart[0] == endCoor[0]){
             if(endCoor.charCodeAt(1) <  shipStart.charCodeAt(1)){
                 for (let i =shipStart.charCodeAt(1)-1; i > endCoor.charCodeAt(1); i--) {
-                    if(player=='player'){
-                        ship.addCoor(String(endCoor[0]+String.fromCharCode(i)))
-                    }
+                    ship.addCoor(String(endCoor[0]+String.fromCharCode(i)))
                 }
 
             }else{
                 for (let i =shipStart.charCodeAt(1)+1; i < endCoor.charCodeAt(1); i++) {
-                    if(player=='player'){
-                        ship.addCoor(String(endCoor[0]+String.fromCharCode(i)))
-                    }
+                    ship.addCoor(String(endCoor[0]+String.fromCharCode(i)))
                 }
             }  
             
         }else {
             if(shipStart[0] < endCoor[0]){
                 for (let i = Number(shipStart[0])+1; i < endCoor[0]; i++) {
-                    if(player=='player'){
-                        ship.addCoor(String(i+shipStart[1]))
-                    }
+                    ship.addCoor(String(i+shipStart[1]))
                 }
             }else{
                 for (let i = Number(endCoor[0])+1; i < shipStart[0]; i++) {
-                    if(player=='player'){
-                        ship.addCoor(String(i+shipStart[1]))
-                    }
+                    ship.addCoor(String(i+shipStart[1]))
                 }
             }
 
         }
         ship.addCoor(endCoor)
-        
+
+       
+        console.log(ship.coor)
         return ship.coor
     }
     receiveAttack(coor){
