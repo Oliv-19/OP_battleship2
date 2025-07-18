@@ -19,5 +19,6 @@ export default class Ships{
     }
     addCoor(coordinate){
         this.coor.push(coordinate)
+        return this.coor
     }
 }

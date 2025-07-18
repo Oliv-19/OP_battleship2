@@ -14,23 +14,20 @@ export default class Computer{
         }else{
             square= document.getElementById(num+letter)
         }
-        //console.log(num)
         if( square.classList.contains('miss')== true){
             return this.makePlay(type)
         }
         return  num+letter
     }
     attack(){
-        let playInfo= this.makePlay()
-        
-        let move=  this.playerGb.receiveAttack(playInfo[0].id)
-        //console.log(move)
-        // if(move.isHit== true){
-            
-        // }
-        if(square.classList.contains('hit') == false || !square.classList.contains('miss') == false){
+        let playInfo= this.makePlay('attack')
+        let square= document.getElementById(playInfo)
+        let move=  this.playerGb.receiveAttack(square.id) 
+        console.log(playInfo)
+        if(!square.classList.contains('hit') && !square.classList.contains('miss')){
             this.domAttack(square, move)
         }
+        
     }
     placeComputerShip(ship, displayShip , getPosiblePositions){
         let playInfo= this.makePlay('placeShip')
@@ -64,6 +61,5 @@ export default class Computer{
         }else{
             this.placeComputerShip(ship, displayShip , getPosiblePositions)
         }
-        console.log(square)
     }
 }

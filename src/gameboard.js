@@ -9,10 +9,9 @@ export default class Gameboard{
     allShipsSunk(){
         return this.sunkShips.every(ship=>ship==true)
     }
-    placeShip(endCoor, ship, player){
+    placeShip(endCoor, ship){
         this.allShips.push(ship)
         let shipStart= ship.coor[0]
-        console.log(shipStart, endCoor)
         if(shipStart[0] == endCoor[0]){
             if(endCoor.charCodeAt(1) <  shipStart.charCodeAt(1)){
                 for (let i =shipStart.charCodeAt(1)-1; i > endCoor.charCodeAt(1); i--) {
@@ -39,8 +38,6 @@ export default class Gameboard{
         }
         ship.addCoor(endCoor)
 
-       
-        console.log(ship.coor)
         return ship.coor
     }
     receiveAttack(coor){

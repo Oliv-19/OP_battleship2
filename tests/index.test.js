@@ -10,11 +10,23 @@ describe('gameboard tests', ()=>{
     })
     test('placeShip carrier ship', ()=>{
         let ship= new Ships(1, 5, 'carrier')
-        expect(gb.placeShip('1F', ship) ).toEqual(['1F','2F', '3F', '4F', '5F'])
+        ship.addCoor('1F')
+        expect(gb.placeShip('5F', ship) ).toEqual(['1F','2F', '3F', '4F', '5F'])
     })
-    test('placeShip battleship ship', ()=>{
+    test('placeShip destroyer ship reversed', ()=>{
+        let ship= new Ships(1, 2, 'destroyer')
+        ship.addCoor('6C')
+        expect(gb.placeShip( '5C', ship)).toEqual( ['6C','5C'])
+    })
+    test('placeShip battleship horizontally', ()=>{
         let ship= new Ships(1, 4, 'battleship')
-        expect(gb.placeShip( '2B', ship)).toEqual( ['2B','3B', '4B', '5B'])
+        ship.addCoor('5B')
+        expect(gb.placeShip( '5E', ship)).toEqual( ['5B','5C', '5D', '5E'])
+    })
+    test('placeShip submarine horizontally reversed', ()=>{
+        let ship= new Ships(1, 4, 'battleship')
+        ship.addCoor('1J')
+        expect(gb.placeShip( '1H', ship)).toEqual( ['1J','1I', '1H'])
     })
     test('attack ship coordinates', ()=>{
         expect(gb.receiveAttack('2F')).toEqual({isHit: true, isSunk:false, shipName: 'carrier'})
@@ -37,5 +49,9 @@ describe('ship tests', ()=>{
         ship.hit()
         ship.hit()
         expect(ship.isSunk()).toBe(true)
+    })
+    test('Add coordinate ', ()=>{
+        let ship= new Ships(1, 2, 'destroyer')
+        expect( ship.addCoor('1F')).toEqual(['1F'])
     })
 })

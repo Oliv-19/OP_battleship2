@@ -20,30 +20,28 @@ let computerInstance= new Computer(computer, playerGameboard, computerGameboard,
 let shipsInfo=[['carrier', 5,], [ 'battleship',4], 
 [ 'cruiser',3],[ 'submarine',3],[ 'destroyer',2]]
 
-let currPlayer= computer
+let currPlayer= player
 let currShip
 let currShipInfo
 let currPosiblePositions
+let isPlayerTurn = true
 
-function getCurrentPlayer(){
-    if(currPlayer.playerName== player.playerName){
-        currPlayer= computer
-        enemyGrid.removeEventListener('click', attack)
+function changeTurn(){
+    isPlayerTurn = !isPlayerTurn
+    if(!isPlayerTurn){
         makeComputerMove()
-       
-    }else if(currPlayer.playerName== computer.playerName){
-        currPlayer= player
+    }else{
         enemyGrid.addEventListener('click', attack)
-
     }
-    return currPlayer 
 }
 
 function makeComputerMove(){
-    getCurrentPlayer()
-    let interval= setInterval(()=>{
-        computerInstance.attack()
-        clearInterval(interval)
+    setTimeout(()=>{
+        let hit= computerInstance.attack()
+        if(hit==true){
+            currPlayer=  changeTurn()
+        }
+        changeTurn()
     }, 1000)
 }
 
@@ -83,7 +81,6 @@ function placePosiblePosition(e){
         currShip.addCoor(e.target.id)
 
         let posPositions= getPosiblePositions(e, currShip.size)
-        //console.log(posPositions)
         currPosiblePositions= Dom.displayPosiblePositions(posPositions)
         currPosiblePositions.forEach(val=> val.addEventListener('click', placePlayerShips))
     }
@@ -96,30 +93,26 @@ function placePlayerShips(e){
         Dom.displayShip(shipCoor)
 
         computerInstance.placeComputerShip(generateShips(currShipInfo), Dom.displayShip, getPosiblePositions)
-        console.log(playerGameboard.allShipsPlaced())
-        if(playerGameboard.allShipsPlaced()== true){
-            playerGrid.removeEventListener('click', placePlayerShips)
-            //enemyGrid.addEventListener('click', attack)
-            
-            currPlayer=  getCurrentPlayer()
+        
+        if(playerGameboard.allShipsPlaced()== true){ 
+            playerGrid.removeEventListener('click', placePosiblePosition)
+            return enemyGrid.addEventListener('click', attack)
         }
         playerGrid.addEventListener('click', placePosiblePosition)
     }
 }
 function attack(e){
-    currPlayer=  getCurrentPlayer()
-    //console.log(currPlayer)
-    if(e.target.classList.contains('hit') == false || !e.target.classList.contains('miss') == false){
+    if(!e.target.classList.contains('hit') && !e.target.classList.contains('miss') ){
+        enemyGrid.removeEventListener('click', attack)
         let move=  computerGameboard.receiveAttack(e.target.id)
-        if(move.isHit== true){
-            currPlayer=  getCurrentPlayer()
-        }
-        //console.log(move)
+    // if(move.isHit== true){
+        //     currPlayer=  changeTurn()
+        // }
         Dom.displayAttack(e.target, move)
         if(computerGameboard.allShipsSunk()){
             enemyGrid.removeEventListener('click', attack)
         }
-
+        changeTurn()
     }
     
 }

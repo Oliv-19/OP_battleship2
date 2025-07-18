@@ -45,12 +45,10 @@ const Dom= {
             square.classList.add('posShip')
             squares.push(square)
         })
-        console.log(squares)
         return squares
     },
     displayShip: function(shipCoor){
         let posPosition= document.querySelectorAll('.posShip')
-        //console.log(posPosition)
         posPosition.forEach(val=>{
             val.classList.remove('posShip')
 
@@ -58,9 +56,7 @@ const Dom= {
         for (let i = 0; i < shipCoor.length; i++) {
             
             let square= document.getElementById(shipCoor[i])
-            //console.log(shipCoor)
             square.classList.add('ship')
-            //console.log(square)
         }
     },
     displayAttack: function(coor, attack){
