@@ -60,16 +60,26 @@ const Dom= {
         }
     },
     displayAttack: function(coor, attack){
-            if(attack.isHit){
-                coor.classList.add('hit')
-            }else{
-                coor.classList.add('miss')
-            }
+        let result= document.querySelector('.result')
+        if(attack.isHit){
+            coor.classList.add('hit')
+            result.textContent= 'Hit! '
+        }else{
+            coor.classList.add('miss')
+            result.textContent= 'Miss '
+        }
 
-            if(attack.isSunk== true){
-                console.log(attack.shipName+ ' has been sunk!')
-            }
+        if(attack.isSunk== true){
+            result.textContent+= attack.shipName+ ' has been sunk!'
+        }
         
+    },
+    displayPlayerTurn:function(turn){
+        let header= document.querySelector('.header')
+        if(turn){
+            header.textContent= 'Player turn'
+            
+        }else header.textContent= 'Computer turn'
     }
     
 }

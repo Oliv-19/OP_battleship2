@@ -8,13 +8,24 @@
 body{
     width: 100vw;
     height: 100vh;
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows:150px 1fr;
     align-items: center;
+    justify-items: center;
+}
+.head{
+    grid-area: 1/1/2/3;
+    width: 100%;
+    
+}
+.header, .result{
+    text-align: center;
 }
 .grids{
-    width: 40%;
-    height: 50%;
+    grid-row: 2;
+    width: 60%;
+    height: 70%;
     display: grid;
     grid-template-rows: repeat(1fr, 10);
     grid-template-columns: repeat(1fr, 10);

@@ -20,7 +20,6 @@ let computerInstance= new Computer(computer, playerGameboard, computerGameboard,
 let shipsInfo=[['carrier', 5,], [ 'battleship',4], 
 [ 'cruiser',3],[ 'submarine',3],[ 'destroyer',2]]
 
-let currPlayer= player
 let currShip
 let currShipInfo
 let currPosiblePositions
@@ -35,6 +34,7 @@ function changeTurn(){
         enemyGrid.addEventListener('click', attack)
     }
     console.log('isplayerturn:' +isPlayerTurn)
+    Dom.displayPlayerTurn(isPlayerTurn)
 }
 
 function makeComputerMove(){
@@ -50,7 +50,7 @@ function makeComputerMove(){
 }
 
 function generateShips(ship){
-    
+
     let newShip= new Ships(1, ship[1], ship[0])
     return newShip
 }
@@ -77,6 +77,8 @@ function getPosiblePositions(e, shipSize){
 
 }
 function placePosiblePosition(e){
+    let header= document.querySelector('.header')
+    header.textContent= 'Place your '+ shipsInfo[0][0].toUpperCase() + ' ship'
     if(e.target.classList.contains('ship') == false){
         playerGrid.removeEventListener('click', placePosiblePosition)
 
@@ -100,6 +102,8 @@ function placePlayerShips(e){
         
         if(playerGameboard.allShipsPlaced()== true){ 
             playerGrid.removeEventListener('click', placePosiblePosition)
+            let header= document.querySelector('.header')
+            header.textContent= 'Player turn'
             return enemyGrid.addEventListener('click', attack)
         }
         playerGrid.addEventListener('click', placePosiblePosition)
