@@ -27,21 +27,25 @@ let currPosiblePositions
 let isPlayerTurn = true
 
 function changeTurn(){
+
     isPlayerTurn = !isPlayerTurn
     if(!isPlayerTurn){
         makeComputerMove()
     }else{
         enemyGrid.addEventListener('click', attack)
     }
+    console.log('isplayerturn:' +isPlayerTurn)
 }
 
 function makeComputerMove(){
     setTimeout(()=>{
-        let hit= computerInstance.attack()
-        if(hit==true){
-            currPlayer=  changeTurn()
+        let move= computerInstance.attack()
+        if(move.isHit){
+           makeComputerMove()
+        }else{
+            changeTurn()
         }
-        changeTurn()
+        //changeTurn()
     }, 1000)
 }
 
@@ -112,7 +116,13 @@ function attack(e){
         if(computerGameboard.allShipsSunk()){
             enemyGrid.removeEventListener('click', attack)
         }
-        changeTurn()
+        console.log(move.isHit)
+        if(move.isHit){
+            enemyGrid.addEventListener('click', attack)
+        }else{
+
+            changeTurn()
+        }
     }
     
 }

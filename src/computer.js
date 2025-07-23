@@ -27,7 +27,7 @@ export default class Computer{
         if(!square.classList.contains('hit') && !square.classList.contains('miss')){
             this.domAttack(square, move)
         }
-        
+        return move
     }
     placeComputerShip(ship, displayShip , getPosiblePositions){
         let playInfo= this.makePlay('placeShip')
