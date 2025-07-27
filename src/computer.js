@@ -57,9 +57,15 @@ export default class Computer{
                 }
                 
             }
-            displayShip(shipCoor)
+            this.displayComputerShip(shipCoor)
         }else{
             this.placeComputerShip(ship, displayShip , getPosiblePositions)
+        }
+    }
+    displayComputerShip(shipCoor){
+        for (let i = 0; i < shipCoor.length; i++) {
+            let square= document.getElementById(shipCoor[i])
+            square.classList.add('ship')
         }
     }
 }

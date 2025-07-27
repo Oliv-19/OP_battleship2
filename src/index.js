@@ -33,7 +33,6 @@ function changeTurn(){
     }else{
         enemyGrid.addEventListener('click', attack)
     }
-    console.log('isplayerturn:' +isPlayerTurn)
     Dom.displayPlayerTurn(isPlayerTurn)
 }
 
@@ -77,9 +76,11 @@ function getPosiblePositions(e, shipSize){
 
 }
 function placePosiblePosition(e){
+    console.log(playerGrid)
     let header= document.querySelector('.header')
     header.textContent= 'Place your '+ shipsInfo[0][0].toUpperCase() + ' ship'
-    if(e.target.classList.contains('ship') == false){
+    if(!e.target.classList.contains('ship') && !e.target.classList.contains('firstRow') && 
+        !e.target.classList.contains('firstColumn')){
         playerGrid.removeEventListener('click', placePosiblePosition)
 
         currShipInfo= shipsInfo.shift()
@@ -87,13 +88,14 @@ function placePosiblePosition(e){
         currShip.addCoor(e.target.id)
 
         let posPositions= getPosiblePositions(e, currShip.size)
-        currPosiblePositions= Dom.displayPosiblePositions(posPositions)
+        currPosiblePositions= Dom.displayPosiblePositions(posPositions, e.target)
         currPosiblePositions.forEach(val=> val.addEventListener('click', placePlayerShips))
     }
 }
 
 function placePlayerShips(e){
-    if(e.target.classList.contains('ship') == false){
+    if(!e.target.classList.contains('ship') && !e.target.classList.contains('firstRow') && 
+        !e.target.classList.contains('firstColumn')){
         currPosiblePositions.forEach(val=> val.removeEventListener('click', placePlayerShips))
         let shipCoor = playerGameboard.placeShip(e.target.id, currShip, 'player')
         Dom.displayShip(shipCoor)
@@ -110,23 +112,31 @@ function placePlayerShips(e){
     }
 }
 function attack(e){
-    if(!e.target.classList.contains('hit') && !e.target.classList.contains('miss') ){
-        enemyGrid.removeEventListener('click', attack)
-        let move=  computerGameboard.receiveAttack(e.target.id)
-    // if(move.isHit== true){
-        //     currPlayer=  changeTurn()
-        // }
-        Dom.displayAttack(e.target, move)
-        if(computerGameboard.allShipsSunk()){
-            enemyGrid.removeEventListener('click', attack)
-        }
-        console.log(move.isHit)
-        if(move.isHit){
-            enemyGrid.addEventListener('click', attack)
-        }else{
+    console.log(e.target)
+    let id= e.target.id
+    if(id.includes('E')){
 
-            changeTurn()
+        if(!e.target.classList.contains('hit') && !e.target.classList.contains('miss') && 
+            !e.target.classList.contains('firstRow') && !e.target.classList.contains('firstColumn') 
+            && !e.target.classList.contains('enemyGrid')){
+    
+            enemyGrid.removeEventListener('click', attack)
+            let move=  computerGameboard.receiveAttack(e.target.id)
+            Dom.displayAttack(e.target, move)
+            
+            if(move.isHit){
+                enemyGrid.addEventListener('click', attack)
+                if(computerGameboard.allShipsSunk()){
+                    return enemyGrid.removeEventListener('click', attack)
+                }
+            }else{
+                changeTurn()
+            }
+            console.log(computerGameboard.allShipsSunk())
         }
+
+    }else{
+
     }
     
 }
@@ -135,6 +145,4 @@ function eventListeners(){
     playerGrid.addEventListener('click', placePosiblePosition)
     
 }
-
-
 eventListeners()

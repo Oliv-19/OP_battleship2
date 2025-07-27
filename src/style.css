@@ -3,20 +3,28 @@
     margin: 0;
     padding: 0;
     box-sizing: content-box;
-    outline: red 1px solid;
+    /* outline: red 1px solid; */
+
+    --color1:#5e9393;
+    --color2:#75b7b7;
+    --color3:#44708d;
+    --color4:#05bdff;
+    --color5:#cf4545;
+    --color6:#0100ff;
 }
 body{
     width: 100vw;
     height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows:150px 1fr;
+    display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: space-evenly;
+    background-color: var(--color1);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: white;
 }
 .head{
     grid-area: 1/1/2/3;
-    width: 100%;
+    width: 20%;
     
 }
 .header, .result{
@@ -24,17 +32,25 @@ body{
 }
 .grids{
     grid-row: 2;
-    width: 60%;
-    height: 70%;
+    width: 35%;
+    height: 60%; 
     display: grid;
     grid-template-rows: repeat(1fr, 10);
     grid-template-columns: repeat(1fr, 10);
+    /* gap: 3px; */
+}
+.square{
+    background-color: var(--color2);
+    
+    border-top: 3px solid var(--color1);
+    border-left: 3px solid var(--color1);
 }
 .row{
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
+    /* gap: 3px; */
 }
 .column{
     display: flex;
@@ -43,16 +59,16 @@ body{
     width: 100%;
     height: 100%;
 }
-.ship{
-    background-color: aqua;
+.playerShip{
+    background-color: var(--color4);
 }
 .posShip{
-    background-color: rgb(63, 63, 204);
+    background-color: var(--color3);
 }
 .hit{
-    background-color: blue;
+    background-color: var(--color6);
 }
 .miss{
-    background-color: red;
+    background-color: var(--color5);
 }
 

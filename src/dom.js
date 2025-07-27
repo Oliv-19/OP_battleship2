@@ -16,18 +16,25 @@ const Dom= {
                 
                 if(name== 'column'){
                     if(elem.parentElement.classList.contains('enemyGrid')== true){
+                        square.classList.add('square')
                         square.id =  'E'+(elem.id-1) + String.fromCharCode(65+i-1)
                         
                     }else{
+                        square.classList.add('square')
                         square.id =  elem.id-1 + String.fromCharCode(65+i-1)
                     }
                     if(square.id == -1 + String.fromCharCode(65+i-1) ||square.id ==  'E'+ -1 + String.fromCharCode(65+i-1)){
-                        
+                        square.classList.add('firstRow')
                         square.textContent = String.fromCharCode(65+i-1)
                     }
                 }
                 elem.appendChild(square)
-                elem.children[0].textContent = elem.id == 0? ' ' : Number(elem.id)
+                if(elem.id == 0){
+                    elem.children[0].textContent= ' '
+                }else{
+                    elem.children[0].textContent= Number(elem.id)
+                    elem.children[0].classList.add('firstColumn')
+                }
             }
         });
     },
@@ -35,8 +42,9 @@ const Dom= {
         let rows= document.querySelectorAll('.row')
         this.generateGrid(rows, 'column')
     },
-    displayPosiblePositions:function(posPositions){
+    displayPosiblePositions:function(posPositions, currPos){
         let squares=[]
+        currPos.classList.add('posShip')
         posPositions.forEach(val=>{
             let square= document.getElementById(val)
             if(square.classList.contains('ship')){
@@ -57,6 +65,7 @@ const Dom= {
             
             let square= document.getElementById(shipCoor[i])
             square.classList.add('ship')
+            square.classList.add('playerShip')
         }
     },
     displayAttack: function(coor, attack){
@@ -81,6 +90,7 @@ const Dom= {
             
         }else header.textContent= 'Computer turn'
     }
+    
     
 }
 
