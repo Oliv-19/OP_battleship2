@@ -68,14 +68,14 @@ const Dom= {
             square.classList.add('playerShip')
         }
     },
-    displayAttack: function(coor, attack){
+    displayAttack: function(coor, attack, player){
         let result= document.querySelector('.result')
         if(attack.isHit){
             coor.classList.add('hit')
-            result.textContent= 'Hit! '
+            result.textContent= player +' Hit! '
         }else{
             coor.classList.add('miss')
-            result.textContent= 'Miss '
+            result.textContent= player +' Miss '
         }
 
         if(attack.isSunk== true){

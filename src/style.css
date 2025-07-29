@@ -71,4 +71,6 @@ body{
 .miss{
     background-color: var(--color5);
 }
-
+.ship{
+    background-color: red;
+}
