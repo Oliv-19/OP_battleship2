@@ -1,5 +1,6 @@
 export default class Gameboard{
-    constructor(){
+    constructor(coors){
+        this.coors=coors
         this.allShips= []
         this.sunkShips= [false,false,false,false, false]
     }

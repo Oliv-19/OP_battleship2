@@ -10,16 +10,18 @@ export default class Computer{
     attack(){
         let playInfo= this.getRandomCoor('attack')
         let square= document.getElementById(playInfo)
-        let move=  this.playerGb.receiveAttack(square.id) 
-        console.log(playInfo)
+        let move
         if(!square.classList.contains('hit') && !square.classList.contains('miss')){
+            move =  this.playerGb.receiveAttack(square.id) 
+            //console.log(playInfo)
             this.domAttack(square, move, 'Computer')
+        }else{
+            return this.attack()
         }
         return move
     }
-    placeComputerShip(){
-        let ship= this.generateRandomBoard(this.computerGb)
-        //there is a problem with this
+    placeComputerShip(ship){
+        let currShip= this.generateRandomBoard(this.computerGb, ship)
         let shipCoor= ship.coor
             for (let i = 0; i < shipCoor.length; i++) {
                 const element = shipCoor[i];
@@ -34,43 +36,12 @@ export default class Computer{
             }
             this.displayComputerShip(shipCoor)
         
-        // let playInfo= this.getRandomCoor('placeComputerShip')
-        // let square= document.getElementById(playInfo)
-        
-        // if(!square.classList.contains('ship')){
-        //     ship.addCoor(playInfo)
-        //     let pos= this.getPosiblePositions(square, ship.size)
-        //     let endPos
-        //     if(pos.length > 1){
-        //         let num= Math.floor(Math.random() * pos.length) 
-        //         endPos= pos[num]
-        //     }else{
-        //         endPos=pos[0]
-        //     }
-        //     let shipCoor= this.computerGb.placeShip(endPos, ship)
-
-
-        //     for (let i = 0; i < shipCoor.length; i++) {
-        //         const element = shipCoor[i];
-        //         shipCoor[i]= 'E'+element
-        //         let square= document.getElementById(shipCoor[i])
-        //         if(square.classList.contains('ship')){
-        //             ship.coor= []
-        //             this.placeComputerShip(ship)
-        //             return
-        //         }
-                
-        //     }
-        //     this.displayComputerShip(shipCoor)
-        // }else{
-        //     this.placeComputerShip(ship)
-        // }
     }
     displayComputerShip(shipCoor){
         for (let i = 0; i < shipCoor.length; i++) {
             let square= document.getElementById(shipCoor[i])
             square.classList.add('ship')
-            console.log(square)
+            //console.log(square)
         }
     }
     makeComputerMove(changeTurn){

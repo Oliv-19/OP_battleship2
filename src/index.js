@@ -3,13 +3,13 @@ import Ships from './ships'
 import Gameboard from './gameboard'
 import Computer from "./computer"
 
-Dom.init()
+let coor= Dom.genColumn()
 let playerGrid= document.querySelector('.playerGrid')
 let enemyGrid= document.querySelector('.enemyGrid')
 let rdmBoardBtn= document.querySelector('.rdmBoard')
 
-let playerGameboard= new Gameboard()
-let computerGameboard= new Gameboard()
+let playerGameboard= new Gameboard(coor.slice(0, 100))
+let computerGameboard= new Gameboard(coor.slice(100))
 
 let computerInstance= new Computer(playerGameboard, computerGameboard, Dom.displayAttack, getRandomCoor,generateRandomBoard, getPosiblePositions, Dom.displayShip)
 
@@ -59,14 +59,13 @@ function getPosiblePositions(e, shipSize){
 
 }
 function placePosiblePosition(e){
-    console.log(playerGrid)
     let header= document.querySelector('.header')
     header.textContent= 'Place your '+ shipsInfo[0][0].toUpperCase() + ' ship'
     if(!e.target.classList.contains('ship') && !e.target.classList.contains('firstRow') && 
         !e.target.classList.contains('firstColumn')){
         playerGrid.removeEventListener('click', placePosiblePosition)
-
-        currShipInfo= shipsInfo.shift()
+        rdmBoardBtn.style.display='none'
+        currShipInfo= shipsInfo.length == 0 ? currShipInfo: shipsInfo.shift()
         currShip= generateShips(currShipInfo)
         currShip.addCoor(e.target.id)
 
@@ -79,6 +78,7 @@ function placePosiblePosition(e){
 function placePlayerShips(e){
     if(!e.target.classList.contains('ship') && !e.target.classList.contains('firstRow') && 
         !e.target.classList.contains('firstColumn')){
+
         currPosiblePositions.forEach(val=> val.removeEventListener('click', placePlayerShips))
         let shipCoor = playerGameboard.placeShip(e.target.id, currShip, 'player')
         Dom.displayShip(shipCoor)
@@ -87,12 +87,14 @@ function placePlayerShips(e){
         
         if(playerGameboard.allShipsPlaced()){ 
             startGame()
+        }else{
+            playerGrid.addEventListener('click', placePosiblePosition)
+
         }
-        playerGrid.addEventListener('click', placePosiblePosition)
     }
 }
 function attack(e){
-    console.log(e.target)
+    //console.log(e.target)
     let id= e.target.id
     if(id.includes('E')){
 
@@ -105,14 +107,17 @@ function attack(e){
             Dom.displayAttack(e.target, move, 'Player')
             
             if(move.isHit){
+                console.log('is hit')
                 enemyGrid.addEventListener('click', attack)
                 if(computerGameboard.allShipsSunk()){
+                    console.log('shi')
+                    //stoping the game before all ships are sunk
                     return enemyGrid.removeEventListener('click', attack)
                 }
             }else{
                 changeTurn()
             }
-            console.log(computerGameboard.allShipsSunk())
+            //console.log(computerGameboard.allShipsSunk())
         }
 
     }else{
@@ -121,58 +126,31 @@ function attack(e){
     
 }
 function getRandomCoor(type){
-    let num= Math.floor(Math.random() * 10) 
-    let letter=String.fromCharCode(65+Math.floor(Math.random() * 10) + 1-1)
-    let square
-    if(type== 'placeComputerShip'){
-        square= document.getElementById('E'+num+letter)
-    }else if(type== 'placeShip' || type=='attack'){
-        square= document.getElementById(num+letter)
+    let coor
+    if(type== 'placeShip'){
+        coor= playerGameboard.coors[Math.floor(Math.random() * playerGameboard.coors.length)]
+    }else if(type=='attack'){
+        let index=Math.floor(Math.random() * playerGameboard.coors.length)
+        coor= playerGameboard.coors.splice(index , 1)
+
+    }else if(type== 'placeComputerShip'){
+        coor= computerGameboard.coors[Math.floor(Math.random() * computerGameboard.coors.length)]
     }
-    if( square.classList.contains('miss')== true){
-        return this.getRandomCoor(type)
-    }
-    return  num+letter
+    return  coor
 }
-let i=0
-function idk(){
+
+function genRandom(){
     while(shipsInfo.length >0){
-        console.log(i+=1)
         currShipInfo= shipsInfo.shift()
         currShip= generateShips(currShipInfo)
-        let ship= generateRandomBoard(playerGameboard)
+        let ship= generateRandomBoard(playerGameboard, currShip)
 
         Dom.displayShip(ship.coor)
         computerInstance.placeComputerShip(generateShips(currShipInfo))
     }
     startGame()
 }
-// function generateRandomBoard(){
-//     while(shipsInfo.length >0){
-//         currShipInfo= shipsInfo.shift()
-//         currShip= generateShips(currShipInfo)
-//         let coor= getRandomCoor('placeShip')
-//         let square= document.getElementById(coor)
-
-//         if(!square.classList.contains('ship')){
-//             currShip.addCoor(coor)
-//             let pos= getPosiblePositions(square, currShip.size)
-//             let endPos
-//             if(pos.length > 1){
-//                 let num= Math.floor(Math.random() * pos.length) 
-//                 endPos= pos[num]
-//             }else{
-//                 endPos=pos[0]
-//             }
-//             let shipCoor= playerGameboard.placeShip(endPos, currShip)
-//             Dom.displayShip(shipCoor)
-
-//         }
-//         computerInstance.placeComputerShip(generateShips(currShipInfo))
-//     }
-//     startGame()
-// }
-function generateRandomBoard(gb){
+function generateRandomBoard(gb, currShip){
    
     let coor= getRandomCoor('placeShip')
     let square= document.getElementById(coor)
@@ -186,15 +164,15 @@ function generateRandomBoard(gb){
         }else{
             endPos=pos[0]
         }
-        let shipCoor= gb.placeShip(endPos, currShip)
+        gb.placeShip(endPos, currShip)
     }else{
-        generateRandomBoard(gb)
+        return generateRandomBoard(gb, currShip)
     }
     return currShip
 }
 function startGame(){
     playerGrid.removeEventListener('click', placePosiblePosition)
-    rdmBoardBtn.removeEventListener('click', idk)
+    rdmBoardBtn.removeEventListener('click', genRandom)
     let header= document.querySelector('.header')
     header.textContent= 'Player turn'
     rdmBoardBtn.style.display='none'
@@ -203,7 +181,7 @@ function startGame(){
 
 function eventListeners(){
     playerGrid.addEventListener('click', placePosiblePosition)
-    rdmBoardBtn.addEventListener('click', idk)
+    rdmBoardBtn.addEventListener('click', genRandom)
     
 }
 eventListeners()

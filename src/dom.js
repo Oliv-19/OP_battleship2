@@ -1,12 +1,8 @@
 import "./style.css"
 const Dom= {
     grids: document.querySelectorAll('.grids'),
-    init:function(){
-        Dom.generateGrid()
-        Dom.genColumn()
-    },
     generateGrid: function(parents= this.grids, name= 'row'){
-
+        let coor=[]
         parents.forEach(elem => {
             for(let i=0; i< 11; i++){
                 let square = document.createElement('div')
@@ -26,6 +22,10 @@ const Dom= {
                     if(square.id == -1 + String.fromCharCode(65+i-1) ||square.id ==  'E'+ -1 + String.fromCharCode(65+i-1)){
                         square.classList.add('firstRow')
                         square.textContent = String.fromCharCode(65+i-1)
+                    }else{
+                        if(!square.id.includes('@'))
+                        coor.push(square.id)
+
                     }
                 }
                 elem.appendChild(square)
@@ -37,10 +37,14 @@ const Dom= {
                 }
             }
         });
+        
+        return coor
     },
     genColumn:function(){
+        Dom.generateGrid()
         let rows= document.querySelectorAll('.row')
-        this.generateGrid(rows, 'column')
+        let coor= this.generateGrid(rows, 'column')
+        return coor
     },
     displayPosiblePositions:function(posPositions, currPos){
         let squares=[]
@@ -87,8 +91,13 @@ const Dom= {
         let header= document.querySelector('.header')
         if(turn){
             header.textContent= 'Player turn'
-            
-        }else header.textContent= 'Computer turn'
+            this.grids[1].style.outline= '#76e7e7 3px solid'
+            this.grids[0].style.outline= 'none'
+        }else{
+            header.textContent= 'Computer turn'
+            this.grids[0].style.outline= '#76e7e7 3px solid'
+            this.grids[1].style.outline= 'none'
+        }
     }
     
     
