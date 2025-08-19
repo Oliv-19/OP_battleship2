@@ -8,8 +8,6 @@ const Dom= {
                 let square = document.createElement('div')
                 square.className= name
                 square.id=i
-                
-                
                 if(name== 'column'){
                     if(elem.parentElement.classList.contains('enemyGrid')== true){
                         square.classList.add('square')
@@ -70,6 +68,7 @@ const Dom= {
             let square= document.getElementById(shipCoor[i])
             square.classList.add('ship')
             square.classList.add('playerShip')
+            
         }
     },
     displayAttack: function(coor, attack, player){
@@ -91,12 +90,12 @@ const Dom= {
         let header= document.querySelector('.header')
         if(turn){
             header.textContent= 'Player turn'
-            this.grids[1].style.outline= '#76e7e7 3px solid'
-            this.grids[0].style.outline= 'none'
+            this.grids[1].style.outline= '#074b19 3px solid'
+            this.grids[0].style.outline= '#5e9393 3px solid'
         }else{
             header.textContent= 'Computer turn'
-            this.grids[0].style.outline= '#76e7e7 3px solid'
-            this.grids[1].style.outline= 'none'
+            this.grids[0].style.outline= '#074b19 3px solid'
+            this.grids[1].style.outline= '#5e9393 3px solid'
         }
     }
     

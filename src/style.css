@@ -41,7 +41,7 @@ body{
     width: 20%;
     text-align: center;
 }
-.rdmBoard{
+.btn{
     padding: 8px;
     border-radius: 5px;
 
@@ -63,10 +63,13 @@ body{
     box-shadow: inset 0 0 0 2px white;
     background-color: transparent;
 }
-.rdmBoard:hover{
+.btn:hover{
     color: #fff;
     background-color: var(--color7);
-}              
+}  
+.playAgain{
+    display: none;
+}            
 .header, .result{
     text-align: center;
 }
@@ -81,10 +84,9 @@ body{
 }
 .square{
     background-color: var(--color2);
-    
-    border-top: 3px solid var(--color1);
-    border-left: 3px solid var(--color1);
+    outline: 3px solid var(--color1);
 }
+
 .row{
     width: 100%;
     height: 100%;
@@ -112,6 +114,6 @@ body{
     background-color: var(--color5);
 }
 .enemyGrid{
-    outline: #76e7e7 3px solid;
+    outline: #074b19 5px solid;
 }
 
